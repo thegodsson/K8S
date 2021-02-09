@@ -5,7 +5,7 @@ pipeline {
     dockerImage = "explog"
   }
 
-  agent { label 'kubepod' }
+  agent any
 
   stages {
 
