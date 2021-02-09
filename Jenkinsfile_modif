@@ -1,6 +1,3 @@
-def buildNum = env.BUILD_NUMBER 
-def branchName= env.BRANCH_NAME
-
 pipeline {
 
   environment {
@@ -18,12 +15,19 @@ pipeline {
       }
     }
 
-    stage('Build and Push Image') {
+    stage('Build image') {
       steps{
         script {
-          docker.withRegistry('http://10.0.0.5:5000', 'myregistry_login') {
-             def customImage = docker.build("$imageName:${branchName}-${buildNum}")
-               customImage.push()
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+        }
+      }
+    }
+
+    stage('Push Image') {
+      steps{
+        script {
+          docker.withRegistry( "http://10.0.0.5:5000', 'myregistry_login'" ) {
+            dockerImage.push()
           }
         }
       }
