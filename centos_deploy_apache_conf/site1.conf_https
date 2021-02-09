@@ -1,0 +1,8 @@
+<VirtualHost *:443>
+  ServerName www.site1.local
+  ServerAlias site1.local
+  DocumentRoot /var/www/site1/html
+  ErrorLog /var/www/site1/logs/error.log
+  CustomLog /var/www/site1/logs/access.log combined
+</VirtualHost>
+
