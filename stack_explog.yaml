@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: explog-dev
+
+  name: explog-dev
+  namespace: dev
+spec:
+
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: explog-dev
+
+  template:
+    metadata:
+      labels:
+        app: explog-dev
+    spec:
+      containers:
+      - name: explog-dev
+        image: 10.0.0.5:5000/explog:latest
+        ports:
+        - containerPort: 80
+        securityContext:
+          privileged: true
+        command: ["/usr/sbin/init", "-c"]
+      imagePullSecrets:
+      - name: myregistry
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: explog-dev-service
+  namespace: dev
+spec:
+  selector:
+    app: explog-dev
+  ports:
+    - name: http
+      protocol: TCP
+      port: 8082
+      targetPort: 80
+  externalIPs:
+    - 192.168.6.121
