@@ -3,11 +3,6 @@ def branchName= env.BRANCH_NAME
 
 pipeline {
 
-  environment {
-    registry = "10.0.0.5:5000/explog"
-    dockerImage = "explog"
-  }
-
   agent any
 
   stages {
