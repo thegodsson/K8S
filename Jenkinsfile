@@ -1,43 +1,42 @@
-def buildNum = env.BUILD_NUMBER 
-def branchName= env.BRANCH_NAME
-
-
 pipeline {
 
-environment {
-   def imageName='10.0.0.5:5000/explog'
-   print buildNum
-   print branchName
-   print imageName
+  environment {
+    registry = "10.0.0.5:5000"
+    dockerImage = "explog"
   }
 
-
-  agent { label 'kubepod' }
+  agent any
 
   stages {
 
     stage('Checkout Source') {
       steps {
-        git url:'https://github.com/thegodsson/testjenkins1.git', branch:'main'
+        git 'https://github.com/thegodsson/K8S.git'
       }
     }
 
-    stage('Build Image') {
-    docker.withRegistry('http://10.0.0.5:5000', 'myregistry_login') {
-       def customImage = docker.build("$imageName:${branchName}-${buildNum}")
-         customImage.push()
-      }
-    }
-
-
-   stage('AFFICHAGE DE LIMAGE'){
-        def der_image = "$imageName:${branchName}-${buildNum}"
+    stage('Build image') {
+      steps{
+        script {
+          dockerImage = docker.build registry + ":$BUILD_NUMBER"
         }
+      }
+    }
+
+    stage('Push Image') {
+      steps{
+        script {
+          docker.withRegistry( "http://10.0.0.5:5000', 'myregistry_login'" ) {
+            dockerImage.push()
+          }
+        }
+      }
+    }
 
     stage('Deploy App') {
       steps {
         script {
-          kubernetesDeploy(configs: "stack_explog.yaml", kubeconfigId: "mykubeconfig")
+          kubernetesDeploy(configs: "stack_explog.yaml.yaml", kubeconfigId: "mykubeconfig")
         }
       }
     }
