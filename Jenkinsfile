@@ -14,7 +14,8 @@ pipeline {
     stage('Checkout Source') {
       steps {
         //git 'https://github.com/thegodsson/K8S.git'
-        git branch: branchName, url: "https://github.com/thegodsson/K8S.git"
+        //git branch: branchName, url: "https://github.com/thegodsson/K8S.git"
+        git url:'https://github.com/thegodsson/K8S.git', branch:'dev'
       }
     }
 
@@ -22,7 +23,8 @@ pipeline {
       steps{
         script {
           docker.withRegistry('http://10.0.0.5:5000', 'myregistry_login') {
-             def customImage = docker.build("$imageName:${branchName}-${buildNum}")
+             //def customImage = docker.build("$imageName:${branchName}-${buildNum}")
+             def customImage = docker.build("$imageName:${buildNum}")
                customImage.push()
           }
         }
