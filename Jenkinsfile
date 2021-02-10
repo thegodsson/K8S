@@ -24,7 +24,7 @@ pipeline {
         script {
           docker.withRegistry('http://10.0.0.5:5000', 'myregistry_login') {
              //def customImage = docker.build("$imageName:${branchName}-${buildNum}")
-             def customImage = docker.build("$imageName:${buildNum}")
+             def customImage = docker.build("$imageName-${buildNum}")
                customImage.push()
           }
         }
