@@ -1,5 +1,6 @@
 def buildNum = env.BUILD_NUMBER 
 def branchName= env.BRANCH_NAME
+def imageName='10.0.0.5:5000/explog'
 
 pipeline {
 
