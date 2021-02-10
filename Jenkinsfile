@@ -13,7 +13,8 @@ pipeline {
 
     stage('Checkout Source') {
       steps {
-        git 'https://github.com/thegodsson/K8S.git'
+        //git 'https://github.com/thegodsson/K8S.git'
+        git branch: branchName, url: "https://github.com/thegodsson/K8S.git"
       }
     }
 
