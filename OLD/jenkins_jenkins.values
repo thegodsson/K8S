@@ -497,6 +497,10 @@ agent:
   #tag: "4.6-1"
   image: "joao29a/jnlp-slave-alpine-docker"
   tag: "latest"
+  #image: "jenkinsci/jnlp-slave"
+  #tag: "latest"
+  #image: 10.0.0.5:5000/myjnlp
+  #tag: latest
   workingDir: "/home/jenkins"
   customJenkinsLabels: []
   # name of the secret to be used for image pulling

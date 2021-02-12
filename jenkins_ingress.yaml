@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: jenkins-web-tls
+  namespace: jenkins
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - kind: Rule
+    match: Host(`jenkins.david.local`) && PathPrefix(`/`)
+    services:
+    - name: jenkins
+      port: 8080
+  tls:
+    certResolver: le

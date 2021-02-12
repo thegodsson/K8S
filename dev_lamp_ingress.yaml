@@ -1,0 +1,16 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: dev-lamp-tls
+  namespace: dev
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - kind: Rule
+    match: Host(`devlamp.david.local`) && PathPrefix(`/`)
+    services:
+    - name: explog-dev-service
+      port: 8082
+  tls:
+    certResolver: le
