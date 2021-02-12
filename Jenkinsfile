@@ -35,6 +35,7 @@ pipeline {
       steps {
         script {
           kubernetesDeploy(configs: "stack_explog.yaml", kubeconfigId: "mykubeconfig")
+          kubernetesDeploy(configs: "dev_lamp_ingress.yaml", kubeconfigId: "mykubeconfig")
         }
       }
     }
